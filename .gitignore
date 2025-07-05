@@ -1,0 +1,22 @@
+# Node.js
+node_modules/
+dist/
+build/
+.env
+.env.local
+*.log
+npm-debug.log*
+
+# Supabase
+.supabase/
+supabase/config.toml
+
+# Mac system files
+.DS_Store
+
+# VSCode/IDE files
+.vscode/
+.idea/
+
+# OS-related
+Thumbs.db
