@@ -75,7 +75,7 @@ const runQuiz = async () => {
             try {
                 const questions = JSON.parse(output);
                 allQs.push(...questions);
-                console.log('question generated for summary', questions.length/2);
+                console.log('question generated for summary', allQs.length/2);
             } catch (err) {
                 // Fallback: try to extract JSON block
                 const match = output.match(/\[.*\]/s);

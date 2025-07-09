@@ -2,15 +2,15 @@
   "crons": [
     {
       "command": "npm run ingest",
-      "schedule": "30 1 * * *"
+      "schedule": "10 0 * * *"
     },
     {
       "command": "npm run quiz",
-      "schedule": "35 1 * * *"
+      "schedule": "25 0 * * *"
     },
     {
       "command": "npm run digest",
-      "schedule": "40 1 * * 0"
+      "schedule": "10 0 * * 0"
     }
   ]
 }

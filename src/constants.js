@@ -109,6 +109,7 @@ export const NEWS_API_SOURCES = [
 export const RSS_FEEDS = [
     'https://indianexpress.com/section/india/feed/',
     'https://www.thehindu.com/news/national/feeder/default.rss',
+    'https://cfo.economictimes.indiatimes.com/rss/topstories',
     'https://timesofindia.indiatimes.com/rssfeedstopstories.cms',
     'https://www.thehindu.com/news/international/feeder/default.rss',
     'https://feeds.feedburner.com/ndtvnews-top-stories',
