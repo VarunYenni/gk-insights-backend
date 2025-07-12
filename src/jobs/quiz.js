@@ -87,7 +87,6 @@ const runQuiz = async () => {
                         q.correct_answer < 0 ||
                         q.correct_answer > 3
                     ) {
-                        console.error('❌ Invalid question format:', q);
                         isValidQuestion = false;
                     }
                 }

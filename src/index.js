@@ -6,10 +6,38 @@ import runDigest from './jobs/digest.js';
 
 const app = express();
 
-// manual trigger endpoints
-app.get('/ingest', async (_, res) => { await runIngest(); res.json({ ok: true }); });
-app.get('/quiz',   async (_, res) => { await runQuiz();   res.json({ ok: true }); });
-app.get('/digest', async (_, res) => { await runDigest(); res.json({ ok: true }); });
+app.use(express.json());
+
+const requireAuthHeader = (req, res, next) => {
+    const auth = req.headers.authorization || '';
+    if (!auth.startsWith('Bearer ') || auth.split(' ')[1] !== process.env.CRON_SECRET) {
+        return res.status(403).send('Forbidden');
+    }
+    next();
+};
+
+app.get('/', (req, res) => {
+    res.send('🚀 GK Insight API is running');
+});
+
+app.post('/ingest', requireAuthHeader, async (req, res) => {
+    await runIngest();
+    res.send('Ingest done');
+});
+
+app.post('/quiz', requireAuthHeader, async (req, res) => {
+    await runQuiz();
+    res.send('Quiz done');
+});
+
+app.post('/digest', requireAuthHeader, async (req, res) => {
+    await runDigest();
+    res.send('Digest done');
+});
+
+app.all(['/ingest', '/quiz', '/digest'], (req, res) => {
+    res.status(405).send('Method Not Allowed');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`💚 Backend live on ${PORT}`));
