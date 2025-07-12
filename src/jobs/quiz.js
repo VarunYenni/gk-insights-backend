@@ -75,6 +75,7 @@ const runQuiz = async () => {
             let output = res.choices?.[0]?.message?.content?.trim();
             try {
                 const questions = JSON.parse(output);
+                const isValidQuestion = true;
                 // Validate structure
                 for (const q of questions) {
                     if (
@@ -87,8 +88,12 @@ const runQuiz = async () => {
                         q.correct_answer > 3
                     ) {
                         console.error('❌ Invalid question format:', q);
-                        continue;
+                        isValidQuestion = false;
                     }
+                }
+                if (!isValidQuestion) {
+                    console.warn('⚠️ Invalid question format, skipping');
+                    continue;
                 }
                 allQs.push(...questions);
                 console.log('question generated for summary', allQs.length/2);
