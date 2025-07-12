@@ -39,6 +39,7 @@ ${summary}
 
 const runQuiz = async () => {
     await supabase.from('quizzes').delete().neq('date', YESTERDAY);
+    console.log('🟢 Old quiz cleared');
     console.log('🟢 quiz started for', YESTERDAY);
 
     const { data: summaries, error } = await supabase
@@ -74,6 +75,21 @@ const runQuiz = async () => {
             let output = res.choices?.[0]?.message?.content?.trim();
             try {
                 const questions = JSON.parse(output);
+                // Validate structure
+                for (const q of questions) {
+                    if (
+                        !q.question ||
+                        !Array.isArray(q.options) ||
+                        q.options.length !== 4 ||
+                        q.correct_answer === undefined ||
+                        typeof q.correct_answer !== 'number' ||
+                        q.correct_answer < 0 ||
+                        q.correct_answer > 3
+                    ) {
+                        console.error('❌ Invalid question format:', q);
+                        continue;
+                    }
+                }
                 allQs.push(...questions);
                 console.log('question generated for summary', allQs.length/2);
             } catch (err) {

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "utils": "node src/utils.js",
     "start": "node src/index.js",
     "ingest": "node src/jobs/ingest.js",
     "quiz": "node src/jobs/quiz.js",

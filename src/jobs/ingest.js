@@ -65,6 +65,7 @@ const rssArticles = async () => {
     const parser = new RSSParser();
     const yest = new Date(YESTERDAY).toDateString();
     const arr = [];
+
     for (const url of RSS_FEEDS) {
         try {
             const feed = await parser.parseURL(url);
@@ -73,6 +74,7 @@ const rssArticles = async () => {
                 .forEach(i => i.link && arr.push({ title: i.title, link: i.link }));
         } catch {}
     }
+
     return arr;
 };
 
@@ -122,7 +124,13 @@ const deleteOldSummaries = async () => {
 
 /* ─── Main ─────────────────────────────── */
 const runIngest = async () => {
-    console.log('🟢 ingest started');
+    console.log('🟢 ingest started for', YESTERDAY);
+
+    const nowUTC = new Date();
+    const nowIST = new Date(nowUTC.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+    console.log('🕒 Now (UTC):', nowUTC.toISOString());
+    console.log('🕒 Now (IST):', nowIST.toISOString());
+    console.log('📆 Calculated YESTERDAY:', YESTERDAY);
 
     console.log('Deleting old summaries...');
     const delError = await deleteOldSummaries();
@@ -167,6 +175,7 @@ const runIngest = async () => {
             /* skip bad articles */
         }
     }
+    console.log('🟢 Ingest completed for', YESTERDAY);
 };
 
 export default runIngest;
