@@ -35,9 +35,5 @@ app.post('/digest', requireAuthHeader, async (req, res) => {
     res.send('Digest done');
 });
 
-app.all(['/ingest', '/quiz', '/digest'], (req, res) => {
-    res.status(405).send('Method Not Allowed');
-});
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`💚 Backend live on ${PORT}`));
