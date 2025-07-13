@@ -90,12 +90,12 @@ const runQuiz = async () => {
                         isValidQuestion = false;
                     }
                 }
-                if (!isValidQuestion) {
-                    console.warn('⚠️ Invalid question format, skipping');
-                    continue;
+                if (isValidQuestion) {
+                    allQs.push(...questions);
+                    console.log('question generated for summary', allQs.length/2);
+                } else {
+                    console.warn('⚠️ Invalid question format');
                 }
-                allQs.push(...questions);
-                console.log('question generated for summary', allQs.length/2);
             } catch (err) {
                 // Fallback: try to extract JSON block
                 const match = output.match(/\[.*\]/s);
