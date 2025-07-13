@@ -16,10 +16,6 @@ const requireAuthHeader = (req, res, next) => {
     next();
 };
 
-app.get('/', (req, res) => {
-    res.send('🚀 GK Insight API is running');
-});
-
 app.post('/ingest', requireAuthHeader, async (req, res) => {
     await runIngest();
     res.send('Ingest done');
