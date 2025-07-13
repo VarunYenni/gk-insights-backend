@@ -126,12 +126,6 @@ const deleteOldSummaries = async () => {
 const runIngest = async () => {
     console.log('🟢 ingest started for', YESTERDAY);
 
-    const nowUTC = new Date();
-    const nowIST = new Date(nowUTC.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
-    console.log('🕒 Now (UTC):', nowUTC.toISOString());
-    console.log('🕒 Now (IST):', nowIST.toISOString());
-    console.log('📆 Calculated YESTERDAY:', YESTERDAY);
-
     console.log('Deleting old summaries...');
     const delError = await deleteOldSummaries();
     if (delError) {
