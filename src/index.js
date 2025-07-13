@@ -16,17 +16,17 @@ const requireAuthHeader = (req, res, next) => {
     next();
 };
 
-app.post('/ingest', requireAuthHeader, async (req, res) => {
+app.get('/ingest', requireAuthHeader, async (req, res) => {
     await runIngest();
     res.send('Ingest done');
 });
 
-app.post('/quiz', requireAuthHeader, async (req, res) => {
+app.get('/quiz', requireAuthHeader, async (req, res) => {
     await runQuiz();
     res.send('Quiz done');
 });
 
-app.post('/digest', requireAuthHeader, async (req, res) => {
+app.get('/digest', requireAuthHeader, async (req, res) => {
     await runDigest();
     res.send('Digest done');
 });
