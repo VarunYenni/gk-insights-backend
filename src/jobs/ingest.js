@@ -135,7 +135,7 @@ const runIngest = async () => {
         return;
     }
     
-    const summarizedArticlesLength = 0;
+    let summarizedArticlesLength = 0;
 
     const articles = [...await newsApiArticles(), ...await rssArticles()].slice(0, 150);
     console.log('articles fetched:', articles.length);
