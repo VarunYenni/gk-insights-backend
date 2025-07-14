@@ -2,7 +2,7 @@
 import 'dotenv/config';
 import OpenAI from 'openai';
 import { createClient } from '@supabase/supabase-js';
-import { YESTERDAY } from '../utils.js';
+import { getYesterdayIST } from '../utils.js';
 
 const openai = new OpenAI({
     apiKey: process.env.GROQ_API_KEY,
@@ -38,6 +38,7 @@ ${summary}
 `;
 
 const runQuiz = async () => {
+    const YESTERDAY = getYesterdayIST();
     await supabase.from('quizzes').delete().neq('date', YESTERDAY);
     console.log('🟢 Old quiz cleared');
     console.log('🟢 quiz started for', YESTERDAY);

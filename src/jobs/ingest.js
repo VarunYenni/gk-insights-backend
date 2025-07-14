@@ -6,7 +6,7 @@ import { extract } from '@extractus/article-extractor';
 import { convert } from 'html-to-text';
 import { createClient } from '@supabase/supabase-js';
 import { UPSC_TOPICS, NEWS_API_SOURCES, RSS_FEEDS, SUM_MODEL } from '../constants.js';
-import { YESTERDAY } from '../utils.js';
+import { getYesterdayIST } from '../utils.js';
 
 /* ─── Supabase ─────────────────────────── */
 const supabase = createClient(
@@ -41,6 +41,7 @@ const findUPSCTags = (text) => {
 
 /* ─── Sources ───────────────────────────── */
 const newsApiArticles = async () => {
+    const YESTERDAY = getYesterdayIST();
     try {
         const { data: { articles = [] } = {} } = await axios.get('https://newsapi.org/v2/everything', {
             params: {
@@ -63,7 +64,7 @@ const newsApiArticles = async () => {
 
 const rssArticles = async () => {
     const parser = new RSSParser();
-    const yest = new Date(YESTERDAY).toDateString();
+    const yest = new Date(getYesterdayIST()).toDateString();
     const arr = [];
 
     for (const url of RSS_FEEDS) {
@@ -124,7 +125,8 @@ const deleteOldSummaries = async () => {
 
 /* ─── Main ─────────────────────────────── */
 const runIngest = async () => {
-    console.log('🟢 ingest started for', YESTERDAY);
+    const YESTERDAY = getYesterdayIST();
+    console.log('🟢 ingest started for', getYesterdayIST());
 
     console.log('Deleting old summaries...');
     const delError = await deleteOldSummaries();
@@ -132,8 +134,10 @@ const runIngest = async () => {
         console.error('❌ Supabase delete error:', delError.message);
         return;
     }
+    
+    const summarizedArticlesLength = 0;
 
-    const articles = [...await newsApiArticles(), ...await rssArticles()].slice(0, 100);
+    const articles = [...await newsApiArticles(), ...await rssArticles()].slice(0, 150);
     console.log('articles fetched:', articles.length);
 
     for (const art of articles) {
@@ -148,6 +152,12 @@ const runIngest = async () => {
             if (tags.length === 0) {
                 console.log('⏭️ skip (non-UPSC):', art.title);
                 continue;
+            }
+            
+            summarizedArticlesLength++;
+            if (summarizedArticlesLength > 100) {
+                console.log('🟢 Ingest limit reached, stopping...');
+                break;
             }
 
             const row = {

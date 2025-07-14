@@ -63,7 +63,7 @@ export const UPSC_TOPICS = {
     ],
     internalSecurity: [
         'naxalism', 'cybersecurity', 'terrorism', 'insurgency', 'terrorist attack', 'war',
-        'border management', 'afspa', 'counter terrorism', 'terrorist', 'police',
+        'border management', 'afspa', 'counter terrorism', 'terrorist', 'police', 'military', 'defence'
         'internal security', 'itbp', 'bodo', 'manipur violence', 'army', 'blast', 'bomb',
         'radicalisation', 'militancy', 'left wing extremism', 'bodo', 'bsf', 'nsa', 'missiles'
     ],

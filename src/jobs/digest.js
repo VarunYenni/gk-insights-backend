@@ -128,6 +128,8 @@ export default async function runDigest() {
     await pruneOldDigests();
     const dates = lastNDatesIST(7);
 
+    console.log('📅 Dates in digest:', dates);
+
     const { data: summaries, error } = await supabase
         .from('summaries')
         .select('title, body, date')
@@ -147,8 +149,6 @@ export default async function runDigest() {
         console.error('❌ Groq returned empty overview');
         return;
     }
-
-    console.log('🔍 Overview generated:', overview.slice(0, 100), '...');
 
     const pdfBytes = await buildPdf(overview, summaries);
     const fileName = `${dates.at(-1)}_to_${dates[0]}_digest.pdf`;

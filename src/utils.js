@@ -1,3 +1,9 @@
-export const YESTERDAY = new Date(Date.now() - 24 * 60 * 60 * 1000 + 5.5 * 60 * 60 * 1000)
-    .toISOString()
-    .slice(0, 10);
+import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
+
+export function getYesterdayIST() {
+    const now = new Date();
+    const tz = 'Asia/Kolkata';
+    const indiaNow = toZonedTime(now, tz);        // converts UTC → IST
+    indiaNow.setDate(indiaNow.getDate() - 1);     // go back 1 day
+    return formatInTimeZone(indiaNow, tz, 'yyyy-MM-dd');
+}
